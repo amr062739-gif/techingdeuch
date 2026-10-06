@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أتعلم الألمانية</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF6D6;--card:#fff;--ink:#1F2A44;--blue:#4D96FF;--green:#58C266;--coral:#FF6B6B;--sun:#FFD93D;--soft:#E9F1FF;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b2238;--card:#26304d;--ink:#fff6d6;--soft:#313d63}}
+:root[data-theme="dark"]{--bg:#1b2238;--card:#26304d;--ink:#fff6d6;--soft:#313d63}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Baloo Bhaijaan 2",system-ui,sans-serif;font-weight:500;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:14px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1{font-size:1.6rem;margin:0;font-weight:800}
+.stars{background:var(--sun);color:#1F2A44;border-radius:99px;padding:4px 14px;font-weight:800;font-size:1.2rem}
+nav{display:flex;gap:8px;margin:12px 0}
+nav button{flex:1;font:inherit;font-size:1.2rem;font-weight:800;border:3px solid var(--ink);border-radius:18px;padding:8px;background:var(--card);color:var(--ink);cursor:pointer}
+nav button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+button:focus-visible{outline:4px solid var(--coral);outline-offset:2px}
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:6px;direction:ltr;margin-bottom:14px}
+.strip button{font:inherit;font-weight:800;font-size:1.2rem;height:44px;border:0;border-radius:12px;background:var(--soft);color:var(--ink);cursor:pointer}
+.strip button.on{background:var(--coral);color:#fff;transform:scale(1.12)}
+.card{background:var(--card);border-radius:28px;padding:18px;text-align:center;box-shadow:0 6px 0 rgba(31,42,68,.18)}
+.big{display:flex;justify-content:center;align-items:center;gap:18px;direction:ltr}
+.letter{font-size:6.5rem;line-height:1;font-weight:800;color:var(--blue)}
+.pic{font-size:6.5rem;line-height:1;cursor:pointer;user-select:none}
+.pic:active{transform:scale(1.15)}
+.word{font-size:2.6rem;font-weight:800;direction:ltr;margin:6px 0 0}
+.word b{color:var(--coral)}
+.mean{font-size:1.5rem;margin:0}
+.say{font-size:1.15rem;color:var(--green);font-weight:800;margin:2px 0 10px}
+.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.btn{font:inherit;font-weight:800;font-size:1.2rem;border:0;border-radius:99px;padding:10px 20px;color:#fff;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.2)}
+.btn:active{transform:translateY(3px);box-shadow:none}
+.b1{background:var(--blue)}.b2{background:var(--green)}.b3{background:var(--coral)}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.opts button{font-size:4rem;line-height:1.3;border:4px solid transparent;border-radius:22px;background:var(--soft);cursor:pointer}
+.opts button.ok{border-color:var(--green);background:#d9f7de}
+.opts button.no{border-color:var(--coral);animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.msg{font-size:1.6rem;font-weight:800;min-height:2.4rem;margin:8px 0 0}
+.hide{display:none}
+.note{font-size:.95rem;opacity:.8;text-align:center;margin-top:12px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:420px){.letter,.pic{font-size:5rem}.word{font-size:2.1rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>🇩🇪 أتعلم الألمانية</h1><div class="stars" id="stars">⭐ 0</div></header>
+<nav><button id="t1" class="on">🔤 الحروف</button><button id="t2">🎮 لعبة</button></nav>
+
+<section id="learn">
+<div class="strip" id="strip" aria-label="الحروف"></div>
+<div class="card">
+<div class="big"><div class="letter" id="L"></div><div class="pic" id="P" role="button" tabindex="0" aria-label="اسمع الكلمة"></div></div>
+<p class="word" id="W"></p>
+<p class="mean" id="M"></p>
+<p class="say" id="S"></p>
+<div class="row">
+<button class="btn b1" id="bl">🔊 الحرف</button>
+<button class="btn b2" id="bw">🔊 الكلمة</button>
+</div>
+<div class="row">
+<button class="btn b3" id="prev">➡️ السابق</button>
+<button class="btn b3" id="next">التالي ⬅️</button>
+</div>
+</div>
+</section>
+
+<section id="game" class="hide">
+<div class="card">
+<p class="mean">اسمع الكلمة ثم اختر الصورة الصحيحة</p>
+<div class="row"><button class="btn b1" id="again">🔊 اسمع</button></div>
+<div class="opts" id="opts"></div>
+<p class="msg" id="msg"></p>
+<div class="row"><button class="btn b2 hide" id="nx">سؤال جديد ➡️</button></div>
+</div>
+</section>
+<p class="note">اضغط على الصورة أو الأزرار لسماع النطق الألماني 🔊 — يعمل الصوت بأفضل شكل في متصفح Chrome أو Safari.</p>
+</div>
+
+<script>
+// letter, name for speech, word, emoji, Arabic meaning, Arabic pronunciation of the letter
+var D=[
+["A","ah","Apfel","🍎","تفاحة","آ"],["B","beh","Ball","⚽","كرة","بيه"],["C","tseh","Clown","🤡","مهرّج","تسيه"],
+["D","deh","Delfin","🐬","دلفين","ديه"],["E","eh","Elefant","🐘","فيل","إيه"],["F","eff","Fisch","🐟","سمكة","إف"],
+["G","geh","Giraffe","🦒","زرافة","غيه"],["H","hah","Hund","🐶","كلب","هَا"],["I","ih","Igel","🦔","قنفذ","إي"],
+["J","yot","Jacke","🧥","جاكيت","يوت"],["K","kah","Katze","🐱","قطة","كا"],["L","ell","Löwe","🦁","أسد","إل"],
+["M","emm","Maus","🐭","فأر","إم"],["N","enn","Nase","👃","أنف","إن"],["O","oh","Orange","🍊","برتقالة","أو"],
+["P","peh","Pizza","🍕","بيتزا","بيه"],["Q","kuh","Qualle","🪼","قنديل البحر","كو"],["R","err","Rakete","🚀","صاروخ","إر"],
+["S","ess","Sonne","☀️","شمس","إس"],["T","teh","Tiger","🐯","نمر","تيه"],["U","uh","Uhr","⏰","ساعة","أو"],
+["V","fau","Vogel","🐦","طائر","فاو"],["W","veh","Wal","🐳","حوت","فيه"],["X","iks","Xylofon","🎵","إكسيليفون","إكس"],
+["Y","üpsilon","Yoga","🧘","يوغا","أوبسيلون"],["Z","tsett","Zebra","🦓","حمار وحشي","تسيت"],
+["Ä","ä","Äpfel","🍏","تفاحات","إيه (نقطتان)"],["Ö","ö","Öl","🛢️","زيت","أو (نقطتان)"],
+["Ü","ü","Überraschung","🎁","مفاجأة","أو (نقطتان)"],["ß","ess-tsett","Fuß","🦶","قدم","إس-تسيت"]
+];
+var i=0,stars=0,ans="";
+var $=function(id){return document.getElementById(id)};
+function say(t){
+  try{
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(t);u.lang="de-DE";u.rate=.7;u.pitch=1.15;
+    var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.indexOf("de")==0})[0];
+    if(v)u.voice=v;speechSynthesis.speak(u);
+  }catch(e){}
+}
+function show(n){
+  i=(n+D.length)%D.length;var d=D[i];
+  $("L").textContent=d[0]+d[0].toLowerCase();
+  $("P").textContent=d[3];
+  var w=d[2],first=w.charAt(0);
+  $("W").innerHTML="<b>"+first+"</b>"+w.slice(1);
+  $("M").textContent=d[4];
+  $("S").textContent="الحرف يُنطق: "+d[5];
+  [].forEach.call($("strip").children,function(b,k){b.className=k==i?"on":""});
+  say(d[1]);
+}
+function build(){
+  D.forEach(function(d,k){
+    var b=document.createElement("button");b.textContent=d[0];
+    b.setAttribute("aria-label",d[0]);b.onclick=function(){show(k)};$("strip").appendChild(b);
+  });
+}
+$("bl").onclick=function(){say(D[i][1])};
+$("bw").onclick=$("P").onclick=function(){say(D[i][2])};
+$("P").onkeydown=function(e){if(e.key=="Enter"||e.key==" ")say(D[i][2])};
+$("next").onclick=function(){show(i+1)};
+$("prev").onclick=function(){show(i-1)};
+function tab(g){
+  $("learn").className=g?"hide":"";$("game").className=g?"":"hide";
+  $("t1").className=g?"":"on";$("t2").className=g?"on":"";
+  if(g)quiz();
+}
+$("t1").onclick=function(){tab(0)};$("t2").onclick=function(){tab(1)};
+function quiz(){
+  var pool=D.slice(),c=[];
+  while(c.length<3){c.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0])}
+  var right=c[Math.floor(Math.random()*3)];ans=right[2];
+  $("opts").innerHTML="";$("msg").textContent="";$("nx").className="btn b2 hide";
+  c.forEach(function(d){
+    var b=document.createElement("button");b.textContent=d[3];b.setAttribute("aria-label",d[4]);
+    b.onclick=function(){
+      if(d===right){
+        b.className="ok";stars++;$("stars").textContent="⭐ "+stars;
+        $("msg").textContent="🎉 أحسنت! "+d[2]+" = "+d[4];say(d[2]);$("nx").className="btn b2";
+      }else{b.className="no";$("msg").textContent="حاول مرة أخرى 💪";}
+    };
+    $("opts").appendChild(b);
+  });
+  setTimeout(function(){say(ans)},300);
+}
+$("again").onclick=function(){say(ans)};
+$("nx").onclick=quiz;
+build();
+// first letter shown without auto-sound until the child taps (browsers block autoplay)
+(function(){var d=D[0];i=0;$("L").textContent="Aa";$("P").textContent=d[3];
+$("W").innerHTML="<b>A</b>pfel";$("M").textContent=d[4];$("S").textContent="الحرف يُنطق: "+d[5];
+$("strip").children[0].className="on";})();
+if(window.speechSynthesis)speechSynthesis.onvoiceschanged=function(){};
+</script>
+</body>
+</html>
